@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Anniversary!</title>
+    <!-- Google Fonts ภาษาไทยน่ารักๆ -->
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Mali', cursive, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #ffe4e6;
+            background-image: radial-gradient(#fecdd3 1px, transparent 1px);
+            background-size: 20px 20px;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        /* การ์ดตรงกลาง */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 20px;
+            border-radius: 28px;
+            box-shadow: 0 15px 35px rgba(225, 29, 72, 0.15);
+            text-align: center;
+            max-width: 360px;
+            width: 100%;
+            border: 2px solid #fecdd3;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tag {
+            background: #ffe4e6;
+            color: #e11d48;
+            font-size: 0.85rem;
+            padding: 4px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .img-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .img-container img {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.06));
+        }
+
+        h1 {
+            color: #be123c;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        p {
+            color: #4c0519;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            opacity: 0.85;
+        }
+
+        /* ปุ่มกด */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            min-height: 50px;
+            position: relative;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* ปุ่มตกลง */
+        .btn-yes {
+            background-color: #e11d48;
+            color: white;
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .btn-yes:active {
+            transform: scale(0.95);
+        }
+
+        /* ปุ่มปฏิเสธ (ปุ่มหนี) */
+        .btn-no {
+            background-color: #f1f5f9;
+            color: #64748b;
+            transition: all 0.15s ease-out;
+            z-index: 99;
+        }
+
+        /* ป๊อปอัปแสดงความรัก */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 320px;
+            width: 100%;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="tag">สุขสันต์วันครบรอบนะ ❤️</div>
+        
+        <div class="img-container">
+            <img id="main-img" src="https://stickershop.line-scdn.net/stickershop/v1/product/1908334/LINEStorePC/main.png?v=1" alt="Cute Sticker">
+        </div>
+
+        <!-- ปรับเปลี่ยนคำว่า "ปีนี้" เป็น "เดือนนี้" -->
+        <h1>ครบรอบเดือนนี้... <br>ยังรักเค้าเหมือนเดิมมั้ย? 💕</h1>
+        <p>ขอบคุณสำหรับทุกๆ วันที่ผ่านมานะ อยู่เป็นความสุขให้กันแบบนี้ไปนานๆ เลยน้าา</p>
+
+        <div class="btn-group">
+            <button class="btn btn-yes" onclick="showLove()">รักเหมือนเดิมที่สุด! ❤️</button>
+            <button class="btn btn-no" id="no-btn" ontouchstart="moveButton(event)" onmouseover="moveButton(event)" onclick="moveButton(event)">ไม่รักแล้ว 😜</button>
+        </div>
+    </div>
+
+    <!-- หน้าต่างป๊อปอัปเมื่อกดปุ่มตกลง -->
+    <div class="modal" id="loveModal">
+        <div class="modal-content">
+            <h2 style="color: #be123c;">น่ารักที่สุดเลยยย! 🥰✨</h2>
+            <p style="margin: 15px 0; color: #4c0519;">เค้าก็รักเธอมากๆ เหมือนกันนะครับ ขอบคุณที่เป็นแฟนที่ดีมาตลอดนะ! 💖</p>
+            <button class="btn btn-yes" onclick="closeModal()">เค้าก็รักเธอ! ❤️</button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('no-btn');
+        
+        function moveButton(e) {
+            if (e) e.preventDefault();
+
+            const padding = 20;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            const maxX = window.innerWidth - btnWidth - padding;
+            const maxY = window.innerHeight - btnHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        }
+
+        function showLove() {
+            document.getElementById('loveModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('loveModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
